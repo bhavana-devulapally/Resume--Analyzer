@@ -5,7 +5,7 @@ A lightweight **NLP-powered** microservice for automated resume–to–job-descr
 
 ---
 
-## 🛠Core Features
+## Core Features
 
 - **Multi-format Ingestion**: Accepts PDF, DOCX, and TXT resumes via HTTP file upload.  
 - **Text Normalization**:  
