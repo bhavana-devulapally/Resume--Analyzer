@@ -1,49 +1,46 @@
-
-
-
-````markdown
 # Resume Analyzer
 
-_A one-sentence summary of what this project does._
+An NLP Flask microservice for automated resume-to-job-description matching.
 
 ---
 
 ##  Project Overview
 
-A brief paragraph describing the purpose, high-level functionality, and core value of the Resume Analyzer.
+Resume Analyzer streamlines candidate screening by ingesting up to 10 resumes (PDF, DOCX, TXT) and a plain-text job description, then running a full NLP pipeline—text extraction, normalization, TF-IDF vectorization and cosine similarity—to rank the top 3 most relevant resumes in under a second.
 
 ---
 
 ##  NLP Pipeline
 
 1. **Document Ingestion**  
-   - PDF via _library name_  
-   - DOCX via _library name_  
-   - TXT via _method_  
+   - PDF via **PyPDF2**  
+   - DOCX via **docx2txt**  
+   - TXT via standard file read  
 
 2. **Text Preprocessing**  
    - Lowercasing & punctuation stripping  
-   - Tokenization  
-   - Stop-word removal  
-   - _(Optional) Lemmatization_
+   - **Tokenization** (splitting on whitespace & punctuation)  
+   - **Stop-word removal** using NLTK’s English stoplist  
+   - (_Optional: lemmatization with spaCy or NLTK_)  
 
 3. **Vectorization**  
-   - TF-IDF (or other embedding technique)  
+   - Build a **TF-IDF** document-term matrix over the job description + all resumes  
 
 4. **Similarity Retrieval**  
-   - Cosine similarity computation  
-   - Top-N ranking  
+   - Project documents into a sparse vector space  
+   - Compute **cosine similarity** scores between the job description vector and each resume vector  
+   - Sort descending and return the **top 3** matches  
 
 ---
 
-##Installation
+## ⚙ Installation
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/Resume-Analyzer.git
+git clone https://github.com/SeekAI-786/Resume-Analyzer.git
 cd Resume-Analyzer
 
-# 2. Create & activate a virtual environment
+# 2. Create & activate a Python virtual environment
 python3 -m venv venv
 source venv/bin/activate
 
@@ -53,14 +50,17 @@ pip install -r requirements.txt
 
 ---
 
-##  Running Locally
+## ▶ Running Locally
 
 ```bash
 python main.py
 ```
 
-* The service will be available at `http://127.0.0.1:5000/`
-* Upload your job description and resume files via the web form or by POSTing to `/upload`.
+* The service will listen at `http://127.0.0.1:5000/`
+* Use the web form or send a POST request to `/upload` with:
+
+  * **`resumeText`**: plain-text job description
+  * **`resumeFile`**: up to 10 resume files (PDF, DOCX, TXT)
 
 ---
 
@@ -68,19 +68,18 @@ python main.py
 
 ```bash
 curl -X POST http://localhost:5000/upload \
-  -F "resumeText=@job_description.txt" \
-  -F "resumeFile=@alice.pdf" \
-  -F "resumeFile=@bob.docx"
+  -F "resumeText=Seeking a Senior NLP Engineer with Python & deep learning expertise" \
+  -F "resumeFile=@alice_resume.pdf" \
+  -F "resumeFile=@bob_cv.docx"
 ```
 
-**Sample Response**
+**Sample HTML Response**
 
-```json
-[
-  { "filename": "alice.pdf", "similarity": 0.85 },
-  { "filename": "bob.docx",   "similarity": 0.78 },
-  { "filename": "carol.txt",  "similarity": 0.65 }
-]
+```html
+<h3>Top Matching Resumes:</h3>
+<div>Alice_resume.pdf — 0.84</div>
+<div>Bob_cv.docx    — 0.77</div>
+<div>Carol.txt      — 0.65</div>
 ```
 
 ---
@@ -89,29 +88,26 @@ curl -X POST http://localhost:5000/upload \
 
 ```
 Resume-Analyzer/
-├─ main.py
-├─ requirements.txt
+├─ main.py             # Flask app & NLP pipeline
+├─ requirements.txt    # Python dependencies
 ├─ templates/
-│  └─ app.html
-├─ uploads/
-├─ r1.png
-├─ r2.png
-└─ LICENSE
+│  └─ app.html         # Upload form + results template
+├─ uploads/            # Temporary resume storage
+
+
 ```
 
 ---
 
 ##  Future Extensions
 
-* Swap TF-IDF for contextual embeddings (e.g. BERT).
-* Add lemmatization and POS-based filtering.
-* Implement keyword/skill filtering.
-* Provide a JSON-only REST endpoint.
-* Build an interactive dashboard.
-
----
+* Swap TF-IDF for **contextual embeddings** ( BERT, Sentence-Transformers)
+* Integrate **lemmatization** and POS-based filtering for cleaner token sets
+* Add **skill-based filtering** using spaCy’s Matcher or regex rules
+* Expose a **pure JSON REST API** (no HTML) for CI/CD integration
+* Build an interactive **dashboard** with similarity heatmaps and audit logs
 
 
 
-```
+
 ```
