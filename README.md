@@ -1,7 +1,7 @@
 
 # Resume Analyzer
 
-A lightweight **NLP-powered** microservice for automated resume–to–job-description matching. Built on Flask and scikit-learn, it pipelines raw CV documents through text preprocessing, vectorization, and cosine-based retrieval to surface top candidates.
+A lightweight **NLP-powered** microservice for automated resume–to–job-description matching. Built on Flask and scikit-learn, it pipelines raw CV documents through text preprocessing, vectorization and cosine-based retrieval to surface top candidates.
 
 ---
 
@@ -18,7 +18,7 @@ A lightweight **NLP-powered** microservice for automated resume–to–job-descr
   - Supports easy swap to **contextual embeddings** (e.g., BERT, RoBERTa) in future.  
 - **Similarity Scoring**: Computes **cosine similarity** between the job description vector and each resume vector, then ranks top 3 matches.  
 - **RESTful API**: Exposes `/analyze` endpoint for JSON-based requests and responses.  
-- **Containerized Deployment**: Ready for Docker, deployable on Heroku, PythonAnywhere, or any cloud container service.
+- **Containerized Deployment**: Ready for Docker, deployable on Heroku, PythonAnywhere or any cloud container service.
 
 ---
 
