@@ -69,8 +69,7 @@ python main.py
 ```bash
 curl -X POST http://localhost:5000/upload \
   -F "resumeText=Seeking a Senior NLP Engineer with Python & deep learning expertise" \
-  -F "resumeFile=@alice_resume.pdf" \
-  -F "resumeFile=@bob_cv.docx"
+  -F "resumeFile=@Bhavana_resume.pdf" \
 ```
 
 **Sample HTML Response**
