@@ -1,4 +1,3 @@
-# Resume--Analyzer
 
 # Resume Analyzer
 
