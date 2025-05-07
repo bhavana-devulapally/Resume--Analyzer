@@ -33,7 +33,7 @@ Resume Analyzer streamlines candidate screening by ingesting up to 10 resumes (P
 
 ---
 
-## ⚙ Installation
+##  Installation
 
 ```bash
 # 1. Clone the repository
