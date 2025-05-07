@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analyzer</title>
+    <style>
+        /*----------------------------------------
+          Font Imports
+        ----------------------------------------*/
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@300;400&display=swap');
+      
+        /*----------------------------------------
+          Color & Typography Variables
+        ----------------------------------------*/
+        :root {
+          --brand-bg: #1f1f1f;
+          --card-bg: #2a2a2a;
+          --text-primary: #e0e0e0;
+          --text-secondary: #aaa;
+          --accent: #f39c12;
+          --error: #c0392b;
+          --success: #27ae60;
+          --font-heading: 'Merriweather', serif;
+          --font-body: 'Lato', sans-serif;
+        }
+      
+        /*----------------------------------------
+          Base Styles
+        ----------------------------------------*/
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+      
+        body {
+          background: var(--brand-bg);
+          color: var(--text-primary);
+          font-family: var(--font-body);
+          line-height: 1.6;
+          padding: 2rem;
+        }
+      
+        a { color: var(--accent); }
+      
+        /*----------------------------------------
+          Main Container
+        ----------------------------------------*/
+        .container {
+          max-width: 760px;
+          margin: auto;
+          background: var(--card-bg);
+          border-left: 6px solid var(--accent);
+          border-radius: 4px;
+          padding: 2rem;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+      
+        /*----------------------------------------
+          Header
+        ----------------------------------------*/
+        .header {
+          text-align: center;
+          margin-bottom: 2rem;
+        }
+      
+        .header h1 {
+          font-family: var(--font-heading);
+          font-size: 2.5rem;
+          color: var(--accent);
+          margin-bottom: 0.5rem;
+        }
+      
+        .description {
+          font-size: 1rem;
+          color: var(--text-secondary);
+          font-style: italic;
+        }
+      
+        /*----------------------------------------
+          Form Layout
+        ----------------------------------------*/
+        form {
+          display: grid;
+          grid-gap: 1.5rem;
+        }
+      
+        .form-group label {
+          display: block;
+          font-weight: 500;
+          margin-bottom: 0.5rem;
+          color: var(--text-secondary);
+        }
+      
+        textarea,
+        input[type="file"] {
+          width: 100%;
+          padding: 1rem;
+          background: #1e1e1e;
+          border: 1px solid #444;
+          border-radius: 4px;
+          color: var(--text-primary);
+          font-size: 1rem;
+          font-family: var(--font-body);
+        }
+      
+        textarea {
+          height: 140px;
+          resize: vertical;
+        }
+      
+        textarea:focus,
+        input[type="file"]:focus {
+          outline: none;
+          border-color: var(--accent);
+        }
+      
+        .file-upload-container {
+          border: 2px dashed #444;
+          padding: 1rem;
+          border-radius: 4px;
+          text-align: center;
+        }
+      
+        .file-upload-container small {
+          color: var(--text-secondary);
+          display: block;
+          margin-top: 0.5rem;
+          font-size: 0.875rem;
+        }
+      
+        /*----------------------------------------
+          Button
+        ----------------------------------------*/
+        button {
+          padding: 1rem;
+          background: var(--accent);
+          color: #1f1f1f;
+          border: none;
+          border-radius: 2px;
+          font-size: 1.1rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          cursor: pointer;
+          transition: opacity 0.2s ease;
+        }
+      
+        button:hover {
+          opacity: 0.85;
+        }
+      
+        /*----------------------------------------
+          Messages
+        ----------------------------------------*/
+        .message {
+          padding: 1rem;
+          border-radius: 4px;
+          margin-top: 1rem;
+          font-weight: 500;
+        }
+      
+        .message.error {
+          background: rgba(192, 57, 43, 0.1);
+          color: var(--error);
+        }
+      
+        .message.success {
+          background: rgba(39, 174, 96, 0.1);
+          color: var(--success);
+        }
+      
+        /*----------------------------------------
+          Results Panel
+        ----------------------------------------*/
+        .results {
+          margin-top: 1rem;
+          background: #1b1b1b;
+          border-radius: 4px;
+          overflow: hidden;
+        }
+      
+        .results h3 {
+          background: var(--accent);
+          color: #1f1f1f;
+          padding: 1rem;
+          font-family: var(--font-heading);
+          font-size: 1.25rem;
+        }
+      
+        .result-item {
+          display: grid;
+          grid-template-columns: 1fr auto;
+          padding: 0.75rem 1rem;
+          border-top: 1px solid #333;
+          align-items: center;
+          transition: background 0.2s ease;
+        }
+      
+        .result-item:first-of-type {
+          border-top: none;
+        }
+      
+        .result-item:hover {
+          background: #262626;
+        }
+      
+        .resume-name {
+          font-weight: 600;
+        }
+      
+        .score {
+          font-weight: 700;
+          background: #333;
+          padding: 0.25rem 0.5rem;
+          border-radius: 2px;
+          color: var(--success);
+        }
+      
+        /*----------------------------------------
+          Features List
+        ----------------------------------------*/
+        .features {
+          margin-top: 2rem;
+          padding: 1.5rem;
+          background: #1e1e1e;
+          border-radius: 4px;
+        }
+      
+        .features h3 {
+          color: var(--accent);
+          margin-bottom: 1rem;
+          font-size: 1.2rem;
+        }
+      
+        .features ul {
+          list-style: none;
+        }
+      
+        .features li {
+          position: relative;
+          padding-left: 1.5rem;
+          margin-bottom: 0.75rem;
+          color: var(--text-secondary);
+        }
+      
+        .features li:before {
+          content: "►";
+          position: absolute;
+          left: 0;
+          top: 0;
+          color: var(--accent);
+        }
+      
+        /*----------------------------------------
+          Responsive Tweaks
+        ----------------------------------------*/
+        @media (max-width: 600px) {
+          .header h1 {
+            font-size: 2rem;
+          }
+      
+          button {
+            font-size: 1rem;
+            padding: 0.85rem;
+          }
+        }
+      </style>
+      
+      
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Resume Analyzer</h1>
+            <p class="description">
+                Upload multiple resumes and enter a job description to find the best matches. 
+                Our AI-powered system will analyze and rank resumes based on relevance.
+            </p>
+        </div>
+
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="jobDescription">Job Description:</label>
+                <textarea id="jobDescription" name="resumeText" placeholder="Enter the job description here..." required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Upload Resumes (PDF, DOCX, TXT):</label>
+                <div class="file-upload-container">
+                    <input type="file" name="resumeFile" accept=".pdf,.docx,.txt" multiple>
+                    <small>You can select up to 10 resumes at once</small>
+                </div>
+            </div>
+
+            <button type="submit">Analyze Resumes</button>
+        </form>
+
+        {% if message %}
+            <div class="message {% if top_r %}success{% else %}error{% endif %}">
+                {% if not top_r %}
+                    {{ message }}
+                {% endif %}
+                {% if top_r %}
+                    <div class="results" style="display: block;">
+                        <h3>Top Matching Resumes:</h3>
+                        {% for i in range(top_r|length) %}
+                            <div class="result-item">
+                                <div class="resume-name">{{ top_r[i] }}</div>
+                                <div class="score">Match Score: {{ "%.2f"|format(similarity_scores[i]) }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <div class="features">
+            <h3>What our analyzer can do for you:</h3>
+            <ul>
+                <li>Match resumes with job descriptions using AI</li>
+                <li>Rank resumes based on relevance</li>
+                <li>Support multiple resume formats (PDF, DOCX, TXT)</li>
+                <li>Process up to 10 resumes simultaneously</li>
+                <li>Provide clear scoring and ranking</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
