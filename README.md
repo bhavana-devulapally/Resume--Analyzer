@@ -50,7 +50,7 @@ pip install -r requirements.txt
 
 ---
 
-## ▶ Running Locally
+##  Running Locally
 
 ```bash
 python main.py
